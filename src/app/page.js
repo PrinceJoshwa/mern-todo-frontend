@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button"; 
 import { Input } from "@/components/ui/input"; 
 
-const backendURL = process.env.BACKEND_URL; 
+const backendURL = "https://mern-todo-backend-pink.vercel.app"; // Ensure this is the correct backend URL
+
 const HomePage = () => {
   const [task, setTask] = useState(""); 
   const [tasks, setTasks] = useState([]); 
@@ -14,7 +15,10 @@ const HomePage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch(`${backendURL}/tasks`); // Ensure correct URL usage
+        const response = await fetch(`${backendURL}/tasks`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         setTasks(data);
       } catch (error) {
@@ -55,6 +59,9 @@ const HomePage = () => {
             },
             body: JSON.stringify(newTask),
           });
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
           const addedTask = await response.json();
           setTasks([...tasks, addedTask]);
           setTask(""); 
