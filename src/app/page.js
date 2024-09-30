@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button"; 
 import { Input } from "@/components/ui/input"; 
 
-const backendURL = "https://mern-todo-backend-pink.vercel.app"; // Ensure this is the correct backend URL
+const backendURL = "https://mern-todo-backend-pink.vercel.app/tasks"; // Ensure this is the correct backend URL
 
 const HomePage = () => {
   const [task, setTask] = useState(""); 
