@@ -4,19 +4,17 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button"; 
 import { Input } from "@/components/ui/input"; 
 
-const backendURL = "https://mern-todo-backend-pink.vercel.app"; 
-
+const backendURL = process.env.BACKEND_URL; 
 const HomePage = () => {
   const [task, setTask] = useState(""); 
   const [tasks, setTasks] = useState([]); 
   const [isEditing, setIsEditing] = useState(false); 
   const [currentIndex, setCurrentIndex] = useState(null); 
 
-
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch(`${backendURL}/tasks`);
+        const response = await fetch(`${backendURL}/tasks`); // Ensure correct URL usage
         const data = await response.json();
         setTasks(data);
       } catch (error) {
@@ -27,11 +25,9 @@ const HomePage = () => {
     fetchTasks();
   }, []);
 
- 
   const handleAddOrUpdateTask = async () => {
     if (task.trim()) {
       if (isEditing) {
-
         const updatedTask = { description: task };
         try {
           await fetch(`${backendURL}/tasks/${tasks[currentIndex]._id}`, {
@@ -50,7 +46,6 @@ const HomePage = () => {
           console.error("Error updating task:", error);
         }
       } else {
-        
         const newTask = { description: task };
         try {
           const response = await fetch(`${backendURL}/tasks`, {
@@ -70,13 +65,11 @@ const HomePage = () => {
     }
   };
 
- 
   const handleEditTask = (index) => {
     setTask(tasks[index].description); 
     setIsEditing(true); 
     setCurrentIndex(index); 
   };
-
 
   const handleDeleteTask = async (index) => {
     try {
